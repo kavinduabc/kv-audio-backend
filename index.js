@@ -25,7 +25,7 @@ app.use((req, res, next) => {
    if (token) {
        token = token.replace("Bearer ", "");
 
-       jwt.verify(token, "kv-secret-89", (err, decoded) => {
+       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
            if (err) {
                console.error("JWT Verification Failed:", err.message);
            } else {
