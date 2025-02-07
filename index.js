@@ -9,13 +9,14 @@ import mongoose from "mongoose";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import jwt from "jsonwebtoken"
-
+import dotenv from "dotenv";
 
 
 
 //create a vearible for express coll
 let app = express()
 
+dotenv.config();
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
@@ -44,7 +45,7 @@ app.use((req, res, next) => {
  * if i using the connection database string ,i can connect with data
  * base accesse inside  the code
  */
-let mongoUrl = "mongodb+srv://piumalranepura2002:root@cluster0.rclha.mongodb.net/audio-shop?retryWrites=true&w=majority&appName=Cluster0"
+let mongoUrl = process.env.MONGO_URL;
 
 mongoose.connect(mongoUrl)
 
