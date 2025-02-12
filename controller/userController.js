@@ -1,6 +1,10 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv"
+
+//** load the enviorment variable file lode */
+dotenv.config();
 
 export function rejisterUser(req,res){
     //get all request data from body request
