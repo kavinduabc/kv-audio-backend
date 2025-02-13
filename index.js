@@ -65,7 +65,7 @@ connection.once("open",()=>{
 //routing 
 app.use("/api/users",userRouter)
 app.use("/api/product",productRouter)
-app.use("app/reviews",reviewRouter)
+app.use("/api/reviews",reviewRouter)
 
 app.listen(3000,()=>{
    console.log("Server is runnin on port 3000"); 
