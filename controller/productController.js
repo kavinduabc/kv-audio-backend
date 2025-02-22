@@ -1,4 +1,5 @@
 import Product from "../models/product.js";
+import { isTtAdmin } from "./userController.js";
 
 
 export async function addProduct(req,res){
@@ -48,9 +49,25 @@ export async function addProduct(req,res){
 
 //** create to function view product */
 export async function getProduct(req,res){
+   //method for user role is admin
+    let isAdmin = isTtAdmin(req)
+
    try {
-      const products = await Product.find()
-      res.json(products);
+      if(isTtAdmin(req)){
+         const products = await Product.find()
+         res.json(products);
+         return ;
+      }
+      else
+      {
+         const products = await Product.find(
+         {
+            availability : true
+         }
+         )
+         res.json(products);
+         return ;
+      }
    } catch (e) {
       res.status(500).json({
          message : "Faild to get products"
@@ -58,3 +75,5 @@ export async function getProduct(req,res){
      
    }
 } 
+
+

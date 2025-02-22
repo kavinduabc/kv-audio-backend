@@ -64,3 +64,19 @@ export function userLogin(req,res){
         }
     )
 }
+
+
+export  function isTtAdmin(req)
+{
+   let isAdmin = false;
+
+   if(req.user != null){
+      if(req.user.role == "admin")
+      {
+         isAdmin = true;
+      }
+   }
+  
+
+   return isAdmin;
+}
