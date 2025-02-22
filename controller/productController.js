@@ -104,4 +104,29 @@ export async function updateProduct(req,res){
    }
 }
 
+//** create function for delete product  */
+export async function deleteProduct(req,res){
+   try {
+      if(isTtAdmin(req)){
+         const key = req.params.key;
+         await Product.deleteOne({key:key})
+
+         res.json({
+            message :"product delete successfully"
+         })
+      }
+      else{
+         res.status(403).jeson({
+            message:"you are not authorized to perform this action"
+         })
+      }
+      
+   } catch (e) {
+       
+      res.status(500).json({
+         message : "failed to delete product"
+      })
+   }
+}
+
 
