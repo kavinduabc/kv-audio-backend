@@ -45,3 +45,16 @@ export async function addProduct(req,res){
     }
      
 }
+
+//** create to function view product */
+export async function getProduct(req,res){
+   try {
+      const products = await Product.find()
+      res.json(products);
+   } catch (e) {
+      res.status(500).json({
+         message : "Faild to get products"
+      })
+     
+   }
+} 
