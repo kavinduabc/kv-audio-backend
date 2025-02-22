@@ -80,7 +80,17 @@ export async function getProduct(req,res){
 export async function updateProduct(req,res){
    try {
       if(isTtAdmin(req)){
-         
+      
+         const key = req.params.key;
+         const data = req.body
+         await Product.updateOne({key:key},data)
+
+         res.json(
+            {
+               message : "product update successfully"
+            }
+         )
+         return;
       }
       else{
          res.status(403).json({
