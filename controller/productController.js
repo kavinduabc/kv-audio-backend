@@ -76,4 +76,22 @@ export async function getProduct(req,res){
    }
 } 
 
+//** implement the function update product */
+export async function updateProduct(req,res){
+   try {
+      if(isTtAdmin(req)){
+         
+      }
+      else{
+         res.status(403).json({
+            message:"you are not authorized the perform the this action"
+         })
+      }
+   } catch (e) {
+      res.status(500).json({
+         message : "failed to update product"
+      })
+   }
+}
+
 
