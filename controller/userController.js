@@ -56,7 +56,7 @@ export function userLogin(req,res){
 
                    },process.env.JWT_SECRET)
 
-                    res.json({message : "Login successfull",token : token});
+                    res.json({message : "Login successfull",token : token,user : user});
                 }
                 else{
                     res.status(404).json({error : "Login faild"});
