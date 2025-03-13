@@ -12,13 +12,15 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv";
 import reviewRouter from "./routes/reviewRouter.js";
 import InquiryRouter from "./routes/inquiryRouter.js";
+import cors from "cors"
 
 
-
+dotenv.config();
 //create a vearible for express coll
 let app = express()
 
-dotenv.config();
+app.use(cors());
+
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
