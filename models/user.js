@@ -57,8 +57,3 @@ const User = mongoose.model("User",userSchema);
 
 export default User;
 
-// "email": "abcC.com",
- // "password": "abcd",
-
-//"email": "abcA.com",
-  //"password": "abcd", 
