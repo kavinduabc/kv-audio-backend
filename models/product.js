@@ -17,10 +17,10 @@ const productSchema = new mongoose.Schema({
     },
     category :{
       type : String,
-      required : null,
+      required: false, 
       default : "uncategorized"
     },
-    dimentions : {
+    dimensions : {
        type : String,
        required : true
     },
