@@ -1,34 +1,26 @@
-
-//import the express dependency for using our project.
-
-import express from "express"
-//for using 
+import express from "express";
 import bodyParser from "body-parser";
-//import the mongoose library for using our software
 import mongoose from "mongoose";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import reviewRouter from "./routes/reviewRouter.js";
 import InquiryRouter from "./routes/inquiryRouter.js";
-import cors from "cors"
-
+import cors from "cors";
 
 dotenv.config();
-//create a vearible for express coll
-let app = express()
+
+const app = express();
 
 app.use(cors());
-
 app.use(bodyParser.json());
 
+// Middleware to check token
 app.use((req, res, next) => {
    let token = req.header("Authorization");
-
    if (token) {
        token = token.replace("Bearer ", "");
-
        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
            if (err) {
                console.error("JWT Verification Failed:", err.message);
@@ -37,40 +29,27 @@ app.use((req, res, next) => {
            }
        });
    }
-
    next();
 });
 
+// MongoDB connection
+const mongoUrl = process.env.MONGO_URL;
+mongoose.connect(mongoUrl);
 
+const connection = mongoose.connection;
+connection.once("open", () => {
+   console.log("MongoDB connection successful");
+});
 
+// Routing
+app.use("/api/users", userRouter);
+app.use("/api/product", productRouter);
+app.use("/api/reviews", reviewRouter);
+app.use("/api/inquiry", InquiryRouter);
 
-//create a database connection 
-/**
- * if i using the connection database string ,i can connect with data
- * base accesse inside  the code
- */
-let mongoUrl = process.env.MONGO_URL;
+// FIXED: use dynamic port from environment
+const PORT = process.env.PORT || 3000;
 
-mongoose.connect(mongoUrl)
-
-let connection = mongoose.connection
-
-connection.once("open",()=>{
-   console.log("Mongo db connection successfully")
-})
-//** middleware
-// reading the token and identify the user and 
-// include user details for httprequest */
-//start middleware 
-
-
-
-//routing 
-app.use("/api/users",userRouter)
-app.use("/api/product",productRouter)
-app.use("/api/reviews",reviewRouter)
-app.use("/api/inquiry",InquiryRouter)
-
-app.listen(3000,()=>{
-   console.log("Server is runnin on port 3000"); 
-})
+app.listen(PORT, () => {
+   console.log(`Server is running on port ${PORT}`);
+});
