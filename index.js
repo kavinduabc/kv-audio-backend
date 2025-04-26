@@ -47,7 +47,7 @@ app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiry", InquiryRouter);
 
-// FIXED: use dynamic port from environment
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
