@@ -2,50 +2,31 @@ import Product from "../models/product.js";
 import { isTtAdmin } from "./userController.js";
 
 
-export async function addProduct(req,res){
+export async function addProduct(req, res) {
    console.log("Decoded User:", req.user);
-
-     if(req.user == null){
-        res.status(401).json({
-         message : "Please login and try again"
-        })
-        //** we can block the run this function using return   */
-        return
-     }
-
-
-     //** create a condition for user is admin or customer */
-     if(req.user.role != "admin")
-     {
-          res.status(401).json({
-         message : "You are not authorized to perform this action"
-        })
-       
-        return
-     }
-     
-    const data = req.body;
-    const newProduct = new Product(data);
-    // newProduct.save().then(()=>{
-
-       // res.json({message:"Product added successfully"});
-     //}).catch((error)=>{
-       // res.status(500).json({error : "Prodcut addition is failed"});
-    // })
-
-    try {
-      await newProduct.save();
-      res.json({
-         message : "Product registered successfully"
-      })
-
-    } catch (error) {
-      res.status(500).json({
-         error : "Product registeration faild"
-      })
-    }
-     
-}
+ 
+   if (!req.user) {
+     return res.status(401).json({ message: "Please login and try again" });
+   }
+ 
+   if (req.user.role !== "admin") {
+     return res.status(403).json({ message: "You are not authorized to perform this action" });
+   }
+ 
+   try {
+     const data = req.body;
+     console.log("Received Product Data:", data);
+ 
+     const newProduct = new Product(data);
+     await newProduct.save();
+ 
+     res.json({ message: "Product added successfully" });
+   } catch (error) {
+     console.error("Product Save Error:", error.message);
+     res.status(500).json({ error: "Product registration failed" });
+   }
+ }
+ 
 
 //** create to function view product */
 export async function getProduct(req,res){

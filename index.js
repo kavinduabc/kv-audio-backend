@@ -1,55 +1,55 @@
 import express from "express";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
+import reviewRouter from "./routes/reviewRouter.js";
+import inquiryRouter from "./routes/inquiryRouter.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import reviewRouter from "./routes/reviewRouter.js";
-import InquiryRouter from "./routes/inquiryRouter.js";
 import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
+// CORS middleware
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 
-// Middleware to check token
+// Body parser middleware
+app.use(express.json());
+
+// JWT Authentication Middleware (fixed)
 app.use((req, res, next) => {
-   let token = req.header("Authorization");
-   if (token) {
-       token = token.replace("Bearer ", "");
-       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-           if (err) {
-               console.error("JWT Verification Failed:", err.message);
-           } else {
-               req.user = decoded;
-           }
-       });
-   }
-   next();
+    let token = req.header("Authorization");
+    if (token) {
+        token = token.replace("Bearer ", "");
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            req.user = decoded;
+        } catch (err) {
+            console.error("JWT Verification Failed:", err.message);
+        }
+    }
+    next();
 });
 
 // MongoDB connection
 const mongoUrl = process.env.MONGO_URL;
-mongoose.connect(mongoUrl);
+mongoose.connect(mongoUrl)
+    .then(() => console.log("MongoDB connected successfully"))
+    .catch((err) => console.error("MongoDB connection failed:", err.message));
 
-const connection = mongoose.connection;
-connection.once("open", () => {
-   console.log("MongoDB connection successful");
-});
-
-// Routing
+// Routes
 app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
-app.use("/api/inquiry", InquiryRouter);
+app.use("/api/inquiry", inquiryRouter);
 
-
+// Start server
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
-   console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
