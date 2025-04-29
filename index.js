@@ -7,6 +7,7 @@ import inquiryRouter from "./routes/inquiryRouter.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import cors from "cors";
+import orderRouter from "./routes/orderRoute.js";
 
 dotenv.config();
 
@@ -47,6 +48,7 @@ app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiry", inquiryRouter);
+app.use("/api/orderes",orderRouter)
 
 // Start server
 const PORT = process.env.PORT || 3000;
