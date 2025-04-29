@@ -111,3 +111,27 @@ export async function deleteProduct(req,res){
 }
 
 
+export async function getProductNew(req,res){
+    
+   try{
+      const key = req.params.key;
+      const product = await Product.findOne({key:key})
+      
+      if(product == null)
+       {
+         res.status(404).json({
+            message : "Product not found"
+         })
+         return ;
+       }
+       res.json(product)
+   }
+   catch (e) {
+       
+      res.status(500).json({
+         message : "failed get product"
+      })
+   }
+}
+
+
