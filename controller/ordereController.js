@@ -19,7 +19,7 @@ export  async function createOrder(req,res){
     }
     orderInfo.email = req.user.email;
 
-    const lastOrder = Order.find().sort({ orderId:-1}).limit(1);
+    const lastOrder = await Order.find().sort({orderDate:-1}).limit(1);
     if(lastOrder.length == 0){
         orderInfo.orderId = "ORD0001";
     }
@@ -78,14 +78,15 @@ export  async function createOrder(req,res){
     orderInfo.days = data.days;
     orderInfo.startingDate = data.startingDate;
     orderInfo.endingDate = data.endingDate;
-    orderInfo.totalCost = onDayCost * data.days;
+    orderInfo.totalPrice = onDayCost * data.days;
    
 
     try{
         const newOrder = new Order(orderInfo);
-        await newOrder.save();
+        const result =await newOrder.save();
         res.json({
-            message : "Order created successfully"
+            message : "Order created successfully",
+            order : result
         })
     }catch(e){
         res.status(500).json({
