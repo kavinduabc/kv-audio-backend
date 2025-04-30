@@ -89,9 +89,16 @@ export  async function createOrder(req,res){
             order : result
         })
     }catch(e){
+        console.log(e);
         res.status(500).json({
+        
             message : "Failed to create order"
         })
     }
 
+}
+
+export async function getQuotetion(req,res) {
+    
+    
 }
