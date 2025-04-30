@@ -48,7 +48,7 @@ app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiry", inquiryRouter);
-app.use("/api/orderes",orderRouter)
+app.use("/api/orderes",orderRouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;
