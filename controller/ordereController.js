@@ -100,5 +100,73 @@ export  async function createOrder(req,res){
 
 export async function getQuotetion(req,res) {
     
+    const data = req.body;
+    const orderInfo = {
+        
+        orderedItems : []
+    };
     
+
+    let onDayCost = 0;
+  
+ //** find the order body included items  */
+
+    for(let i=0; i<data.orderedItems.length ; i++)
+    {
+        try {
+           const product = await Product.findOne({key : data.orderedItems[i].key})
+           if(product == null){
+            res.status(404).json({
+                message:"Product with key "+data.orderedItems[i].key+" not found"
+            })
+            return 
+           } 
+
+           if(product.availability == false){
+            res.status(400).json({
+                message : "product with key "+data.orderedItems[i].key+" is not available"
+            })
+            return 
+           }
+
+           orderInfo.orderedItems.push({
+            product : {
+                key : product.key,
+                name : product.name,
+                image : product.image[0],
+                price : product.price
+            },
+            quantity : data.orderedItems[i].quantity
+           })
+
+           onDayCost += product.price * data.orderedItems[i].quantity;
+
+        } catch (e) {
+            res.status(500).json({
+                message : "Failed to create order"
+            })
+            return 
+        }
+    }
+
+    orderInfo.days = data.days;
+    orderInfo.startingDate = data.startingDate;
+    orderInfo.endingDate = data.endingDate;
+    orderInfo.totalPrice = onDayCost * data.days;
+   
+
+    try{
+        const newOrder = new Order(orderInfo);
+        
+        res.json({
+            message : "Order created successfully",
+            total : orderInfo.totalPrice ,
+        })
+    }catch(e){
+        console.log(e);
+        res.status(500).json({
+        
+            message : "Failed to create order"
+        })
+    }
 }
