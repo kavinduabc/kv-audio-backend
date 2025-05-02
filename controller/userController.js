@@ -66,6 +66,27 @@ export function userLogin(req,res){
     )
 }
 
+export async function getAllUsers(req,res){
+
+     if(isTtAdmin(req))
+     {
+        try {
+           const users = await User.find();
+           res.json(users); 
+        } catch (e) {
+            res.status(500).json(
+                {
+                    error : "Faild to get users "
+                }
+            )
+        }
+     }else{
+        res.status(403).json({
+            error : "Unauthorized to perform this task"
+        })
+     }
+}
+
 
 export  function isTtAdmin(req)
 {
