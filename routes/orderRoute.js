@@ -4,8 +4,8 @@ import { createOrder, getOrders, getQuotetion } from "../controller/ordereContro
 const orderRouter = express.Router();
 
 orderRouter.post("/",createOrder);
-orderRouter.post("/quotetion",getQuotetion)
-orderRouter.get("/",getOrders)
+orderRouter.post("/quotetion",getQuotetion);
+orderRouter.get("/",getOrders);
 
 
 export default orderRouter;

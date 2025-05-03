@@ -1,6 +1,6 @@
 import Order from "../models/order.js";
 import Product from "../models/product.js";
-import { isItCustomer } from "./userController.js";
+import { isItCustomer,isTtAdmin } from "./userController.js";
 
 
 export  async function createOrder(req,res){
@@ -182,7 +182,7 @@ export async function getQuotetion(req,res) {
             }catch(e){
                 res.status(500).json({error: "Failed to get orders"});
             }
-        }else if(isItAdmin(req)){
+        }else if(isTtAdmin(req)){
             try{
                 const orders = await Order.find();
                 res.json(orders);
