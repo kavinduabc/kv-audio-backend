@@ -193,3 +193,39 @@ export async function getQuotetion(req,res) {
             res.status(403).json({error: "Unauthorized"});
         }
     }
+
+    export async function approveOrRejectOrder(req,res){
+        const orderId = req.params.orderId;
+        const status = req.body.status;
+    
+        if(isTtAdmin(req)){
+            try{
+                const order = await Order.findOne(
+                    {
+                        orderId: orderId
+                    }
+                )
+    
+                if(order == null){
+                    res.status(404).json({error: "Order not found"});
+                    return;
+                }
+    
+                await Order.updateOne(
+                    {
+                        orderId: orderId
+                    },
+                    {
+                        status: status
+                    }
+                );
+    
+                res.json({message: "Order approved/rejected successfully"});
+    
+            }catch(e){
+                res.status(500).json({error: "Failed to get order"});
+            }
+        }else{
+            res.status(403).json({error: "Unauthorized"});
+        }
+    }
