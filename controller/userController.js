@@ -66,6 +66,40 @@ export function userLogin(req,res){
     )
 }
 
+export async function blockOrUnblockUser(req, res) {
+	const email = req.params.email;
+	if (isTtAdmin(req)) {
+		try {
+			const user = await User.findOne({
+				email: email,
+			});
+
+			if (user == null) {
+				res.status(404).json({ error: "User not found" });
+				return;
+			}
+
+			const isBlocked = !user.isBlocked;
+
+			await User.updateOne(
+				{
+					email: email,
+				},
+				{
+					isBlocked: isBlocked,
+				}
+			);
+
+			res.json({ message: "User blocked/unblocked successfully" });
+		} catch (e) {
+			res.status(500).json({ error: "Failed to get user" });
+		}
+	} else {
+		res.status(403).json({ error: "Unauthorized" });
+	}
+}
+
+
 export async function getAllUsers(req,res){
 
      if(isTtAdmin(req))
