@@ -154,3 +154,18 @@ export function isItCustomer(req){
 
     return isCustomer;
 }
+
+
+
+//** create funtion for give token , snd check the 
+// customer or admin */
+export  function getUser(req,res){
+    if(req.user != null){
+        res.json(req.user);
+    }
+    else{
+        res.status(403).json({
+            error :"user is not found"
+        })
+    }
+}
