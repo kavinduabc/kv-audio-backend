@@ -38,7 +38,11 @@ const productSchema = new mongoose.Schema({
       type : [String],
       required : true,
       default :["https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fimages%2Fsearch%2Fuser%2F&psig=AOvVaw0uCU9t72Sm51_RBTIJ2OxU&ust=1739456529253000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMCbiuCqvosDFQAAAAAdAAAAABAE"]
-    }
+    },
+    featured: { 
+      type: Boolean, 
+      default: false 
+   }
 })
 
 

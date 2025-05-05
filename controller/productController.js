@@ -33,6 +33,8 @@ export async function getProduct(req,res){
    //method for user role is admin
     let isAdmin = isTtAdmin(req)
 
+    
+
    try {
       if(isTtAdmin(req)){
          const products = await Product.find()
@@ -133,5 +135,15 @@ export async function getProductNew(req,res){
       })
    }
 }
+
+export async function getFeaturedProducts(req, res) {
+   try {
+     const products = await Product.find({ featured: true, availability: true });
+     res.json(products);
+   } catch (e) {
+     res.status(500).json({ message: "Failed to get featured products" });
+   }
+ }
+ 
 
 
