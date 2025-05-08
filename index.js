@@ -13,23 +13,16 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Fixed CORS to allow multiple localhost ports
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+// CORS middleware
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: 'http://localhost:5173',
     credentials: true
 }));
 
 // Body parser middleware
 app.use(express.json());
 
-// JWT Authentication Middleware
+// JWT Authentication Middleware (fixed)
 app.use((req, res, next) => {
     let token = req.header("Authorization");
     if (token) {
@@ -55,6 +48,7 @@ app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiry", inquiryRouter);
+//app.use("/api/orderes",orderRouter);
 app.use("/api/orders", orderRouter);
 
 // Start server
