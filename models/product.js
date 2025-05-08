@@ -42,6 +42,10 @@ const productSchema = new mongoose.Schema({
     featured: { 
       type: Boolean, 
       default: false 
+   },
+   homepProduct:{
+      type:Boolean,
+      default:false
    }
 })
 

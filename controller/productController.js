@@ -144,6 +144,20 @@ export async function getFeaturedProducts(req, res) {
      res.status(500).json({ message: "Failed to get featured products" });
    }
  }
- 
+ export async function getHomePageProducts(req,res){
+   try{
+      const products = await Product.find({
+         homepProduct :true,
+         availability : true
+      })
+      res.json(products);
+   }catch(e){
+      res.status(500).json({
+         message :"failed to get home page products"
+      })
+   }
+ }
+
+
 
 
