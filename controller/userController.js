@@ -127,6 +127,37 @@ export async function getAllUsers(req,res){
      }
 }
 
+export function verifyToken(req, res, next) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) return res.status(401).json({ error: "No token provided" });
+  
+    const token = authHeader.split(" ")[1];
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded; // attach decoded user
+      next();
+    } catch (err) {
+      return res.status(403).json({ error: "Invalid token" });
+    }
+  }
+
+  export async function getCustomer(req, res) {
+    const { email } = req.params;
+    const loggedInUser = req.user;
+  
+    if (loggedInUser && loggedInUser.email === email && loggedInUser.role === "customer") {
+      try {
+        const user = await User.findOne({ email });
+        return res.json(user);
+      } catch (e) {
+        return res.status(500).json({ error: "Failed to get user" });
+      }
+    } else {
+      return res.status(403).json({ error: "Unauthorized to perform this task" });
+    }
+  }
+  
+
 
 export  function isTtAdmin(req)
 {
