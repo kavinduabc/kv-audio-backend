@@ -1,5 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
+import path from "path";
+import { fileURLToPath } from "url"; // Import this to handle __dirname equivalent
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import reviewRouter from "./routes/reviewRouter.js";
@@ -22,7 +24,14 @@ app.use(cors({
 // Body parser middleware
 app.use(express.json());
 
-// JWT Authentication Middleware (fixed)
+// Construct __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from the "uploads" directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// JWT Authentication Middleware
 app.use((req, res, next) => {
     let token = req.header("Authorization");
     if (token) {
@@ -48,7 +57,6 @@ app.use("/api/users", userRouter);
 app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiry", inquiryRouter);
-//app.use("/api/orderes",orderRouter);
 app.use("/api/orders", orderRouter);
 
 // Start server
