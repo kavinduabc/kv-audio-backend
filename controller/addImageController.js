@@ -1,6 +1,6 @@
  import image from '../models/addImage.js';
 
-export async function addFunctionImage(res,res){
+export async function addFunctionImage(req,res){
     if(!req.user){
         return res.status(401).json({
             message:"Pleaes Login and try again"
