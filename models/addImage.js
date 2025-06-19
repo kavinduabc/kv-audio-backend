@@ -12,7 +12,12 @@ const addImageSchema = new mongoose.Schema({
     discription:{
         type:String,
         required:true
-    }
+    },
+    date:{
+        type:Date,
+        required:true,
+        default:Date.now
+       }
 })
 
 const image= mongoose.model("addImage",addImageSchema);
