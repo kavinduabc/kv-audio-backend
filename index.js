@@ -59,7 +59,7 @@ app.use("/api/product", productRouter);
 app.use("/api/reviews", reviewRouter);
 app.use("/api/inquiry", inquiryRouter);
 app.use("/api/orders", orderRouter);
-app.use("api/addImage",addImageRouter);
+app.use("/api/addImage",addImageRouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;
