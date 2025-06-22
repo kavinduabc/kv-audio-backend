@@ -229,3 +229,19 @@ export async function getQuotetion(req,res) {
             res.status(403).json({error: "Unauthorized"});
         }
     }
+
+
+    export function TotalOrderCount(req,res){
+       if(isTtAdmin(req)){
+        Order.countDocuments().then((count)=>{
+            res.json({
+                totalOrders : count
+            })
+        }).catch((err)=>{
+            console.error(err);
+            res.status(500).json({
+                error:"Faild to get order count"
+            })
+        })
+       }
+    }
