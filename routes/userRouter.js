@@ -1,5 +1,5 @@
 import express from "express";
-import { blockOrUnblockUser, getAllUsers, getCustomer, getUser, registerUser, upload, userLogin, verifyToken } from "../controller/userController.js";
+import { blockOrUnblockUser, getAllUsers, getCustomer, getUser, getUserCustomertCount, registerUser, upload, userLogin, verifyToken } from "../controller/userController.js";
 
 const userRouter = express.Router();
 
@@ -9,6 +9,7 @@ userRouter.get("/all", getAllUsers);
 userRouter.get("/up/:email",verifyToken,getCustomer);
 userRouter.get("/block/:email",blockOrUnblockUser);
 userRouter.get("/",getUser);
+userRouter.get("/cuctomerCount",getUserCustomertCount);
 
 
 

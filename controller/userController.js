@@ -167,3 +167,20 @@ export function getUser(req, res) {
     res.status(403).json({ error: "User not found" });
   }
 }
+
+
+export function getUserCustomertCount(req,res){
+  if (req.user && req.user.role === "admin"){
+    User.countDocuments({ role:"customer"})
+    .then((count)=>{
+      res.json({customerCount : count});
+
+    })
+    .catch((err)=>{
+      console.error(err);
+      res.status(500).json({
+        error :"Failed to get customer count"
+      })
+    })
+  }
+}
