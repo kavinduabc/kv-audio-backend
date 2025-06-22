@@ -158,6 +158,19 @@ export async function getFeaturedProducts(req, res) {
    }
  }
 
+ export function getProductCount(req,res){
+
+   Product.countDocuments({availability : true}).then((count)=>{
+      res.json({
+         totalProducts : count
+      }).catch((err)=>{
+         console.log(err);
+         res.status(500).json({
+            error:"Failed to get product count"
+         })
+      })
+   })
+ }
 
 
 
