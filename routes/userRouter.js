@@ -9,7 +9,7 @@ userRouter.get("/all", getAllUsers);
 userRouter.get("/up/:email",verifyToken,getCustomer);
 userRouter.get("/block/:email",blockOrUnblockUser);
 userRouter.get("/",getUser);
-userRouter.get("/cuctomerCount",getUserCustomertCount);
+userRouter.get("/customerCount",getUserCustomertCount);
 
 
 
