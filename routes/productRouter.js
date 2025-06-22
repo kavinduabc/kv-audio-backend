@@ -5,12 +5,13 @@ const productRouter = express.Router();
 
 productRouter.post("/",addProduct)
 productRouter.get("/",getProduct)
+productRouter.get("/productCount",getProductCount)
 productRouter.get("/featured", getFeaturedProducts);
 productRouter.get("/getHomeproducts",getHomePageProducts)
 productRouter.put("/:key",updateProduct);
 productRouter.delete("/:key",deleteProduct)
 productRouter.get("/:key",getProductNew)
-productRouter.get("/productCount",getProductCount)
+
 
 
 export default productRouter;

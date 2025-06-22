@@ -158,19 +158,25 @@ export async function getFeaturedProducts(req, res) {
    }
  }
 
- export function getProductCount(req,res){
-
-   Product.countDocuments({availability : true}).then((count)=>{
-      res.json({
-         totalProducts : count
-      }).catch((err)=>{
-         console.log(err);
-         res.status(500).json({
-            error:"Failed to get product count"
-         })
+export function getProductCount(req, res) {
+  if (isTtAdmin(req)) {
+    Product.countDocuments({ availability: true })
+      .then((count) => {
+        res.json({
+          totalProducts: count,
+        });
       })
-   })
- }
+      .catch((err) => {
+        console.error(err);
+        res.status(500).json({
+          error: "Failed to get product count",
+        });
+      });
+  } else {
+    res.status(403).json({ error: "Unauthorized access" });
+  }
+}
+
 
 
 
