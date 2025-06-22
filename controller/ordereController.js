@@ -230,18 +230,38 @@ export async function getQuotetion(req,res) {
         }
     }
 
+export function TotalOrderCount(req, res) {
+  if (!isTtAdmin(req)) {
+    return res.status(403).json({ error: "Unauthorized access" });
+  }
 
-    export function TotalOrderCount(req,res){
-       if(isTtAdmin(req)){
-        Order.countDocuments().then((count)=>{
-            res.json({
-                totalOrders : count
-            })
-        }).catch((err)=>{
-            console.error(err);
-            res.status(500).json({
-                error:"Faild to get order count"
-            })
-        })
-       }
-    }
+  Promise.all([
+    Order.countDocuments(), 
+    Order.aggregate([
+      {
+        $group: {
+          _id: { $month: "$createdAt" }, 
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } }, 
+    ]),
+  ])
+    .then(([totalOrders, monthlyResults]) => {
+      const monthlyOrders = Array(12).fill(0);
+      monthlyResults.forEach((r) => {
+        monthlyOrders[r._id - 1] = r.count; 
+      });
+
+      res.json({
+        totalOrders,
+        monthlyOrders,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({
+        error: "Failed to get order count",
+      });
+    });
+}
