@@ -21,8 +21,8 @@ const orderSchema = new mongoose.Schema({
                 product :{
                     key :{
                         type : String,
-                        required : true,
-                        unique : true
+                        required : true
+                        // unique : true   
                      },
                      name :{
                         type : String,
@@ -72,7 +72,6 @@ const orderSchema = new mongoose.Schema({
       required : true
     },
 })
-
 
 const Order = mongoose.model("orderes",orderSchema);
 export default Order;
