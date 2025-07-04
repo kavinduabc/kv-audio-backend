@@ -152,6 +152,7 @@ export async function getFeaturedProducts(req, res) {
       })
       res.json(products);
    }catch(e){
+      console.log(e);
       res.status(500).json({
          message :"failed to get home page products"
       })
@@ -173,6 +174,7 @@ export function getProductCount(req, res) {
         });
       });
   } else {
+   
     res.status(403).json({ error: "Unauthorized access" });
   }
 }

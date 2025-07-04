@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
-import { fileURLToPath } from "url"; // Import this to handle __dirname equivalent
+import { fileURLToPath } from "url"; 
 import userRouter from "./routes/userRouter.js";
 import productRouter from "./routes/productRouter.js";
 import reviewRouter from "./routes/reviewRouter.js";
