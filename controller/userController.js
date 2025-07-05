@@ -184,3 +184,21 @@ export function getUserCustomertCount(req,res){
     })
   }
 }
+
+
+
+export async function getLogingUser(req, res) {
+  try {
+    const email = req.user.email; 
+
+    const user = await User.findOne({ email }).select("-password"); 
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (e) {
+    res.status(500).json({ error: "Failed to fetch user data" });
+  }
+}
